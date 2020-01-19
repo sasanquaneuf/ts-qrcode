@@ -1,0 +1,37 @@
+#.circleci/config.yml
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+    working_directory: /home/circleci/ts-qrcode
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: install-npm-wee
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      # ログディレクトリの作成
+      - run:
+          command: |
+            mkdir -p results
+            mkdir -p results/eslint
+      # コーディング規約検証
+      - run:
+          name: eslint
+          when: always
+          command: |
+            npm run eslint:ci
+      - store_test_results:
+          path: results
+      - store_artifacts:
+          path: results
+

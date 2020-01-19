@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.conf.js -p",
     "lint": "eslint --ext .ts ./src",
-    "lint:fix": "eslint --fix --ext .ts ./src"
+    "lint:fix": "eslint --fix --ext .ts ./src",
+    "lint:ci": "eslint --ext .ts --format=html -o ./results/eslint/eslint.html ./src"
   },
   "dependencies": {
     "typescript": "^3.7.5"
