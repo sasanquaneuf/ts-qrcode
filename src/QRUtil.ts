@@ -1,6 +1,6 @@
-import { QRMode, QRMaskPattern } from '~/plugins/qrcode/constants'
-import { QRMath } from '~/plugins/qrcode/QRMath'
-import QRPolynomial from '~/plugins/qrcode/QRPolynomial'
+import { QRMode, QRMaskPattern } from './constants'
+import { QRMath } from './QRMath'
+import QRPolynomial from './QRPolynomial'
 
 export const QRUtil = {
   PATTERN_POSITION_TABLE: [

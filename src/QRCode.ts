@@ -1,23 +1,8 @@
-// ---------------------------------------------------------------------
-// QRCode for JavaScript
-//
-// Copyright (c) 2009 Kazuhiko Arase
-//
-// URL: http://www.d-project.com/
-//
-// Licensed under the MIT license:
-//   http://www.opensource.org/licenses/mit-license.php
-//
-// The word 'QR Code' is registered trademark of
-// DENSO WAVE INCORPORATED
-//   http://www.denso-wave.com/qrcode/faqpatent-e.html
-//
-// ---------------------------------------------------------------------
-import { QRUtil } from '~/plugins/qrcode/QRUtil'
-import QR8bitByte from '~/plugins/qrcode/QR8bitByte'
-import QRBitBuffer from '~/plugins/qrcode/QRBitBuffer'
-import QRRSBlock from '~/plugins/qrcode/QRRSBlock'
-import QRPolynomial from '~/plugins/qrcode/QRPolynomial'
+import { QRUtil } from './QRUtil'
+import QR8bitByte from './QR8bitByte'
+import QRBitBuffer from './QRBitBuffer'
+import QRRSBlock from './QRRSBlock'
+import QRPolynomial from './QRPolynomial'
 
 export default class QRCode {
   typeNumber: any

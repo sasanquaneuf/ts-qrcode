@@ -1,4 +1,4 @@
-import { QRMath } from '~/plugins/qrcode/QRMath'
+import { QRMath } from './QRMath'
 
 export default class QRPolynomial {
   num: any

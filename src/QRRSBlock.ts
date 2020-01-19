@@ -1,4 +1,4 @@
-import { QRErrorCorrectLevel } from '~/plugins/qrcode/constants'
+import { QRErrorCorrectLevel } from './constants'
 
 export default class QRRSBlock {
   totalCount: any

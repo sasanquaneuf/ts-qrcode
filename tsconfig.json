@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "inlineSourceMap": true,
+    "sourceMap": false,
+    "types": [],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es6", "dom"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "exclude": [
+    "./node_modules/*",
+  ],
+  "include": [
+    "./src/**/*.ts",
+  ]
+}

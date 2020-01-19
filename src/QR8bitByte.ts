@@ -1,4 +1,4 @@
-import { QRMode } from '~/plugins/qrcode/constants'
+import { QRMode } from './constants'
 
 export default class QR8bitByte {
   mode: any
