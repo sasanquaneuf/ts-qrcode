@@ -27,7 +27,7 @@ export default class QRCode {
   dataCache: any
   dataList: any
 
-  constructor(typeNumber: any, errorCorrectLevel: any) {
+  constructor (typeNumber: any, errorCorrectLevel: any) {
     this.typeNumber = typeNumber
     this.errorCorrectLevel = errorCorrectLevel
     this.modules = null
@@ -36,24 +36,24 @@ export default class QRCode {
     this.dataList = []
   }
 
-  addData(data: any) {
+  addData (data: any) {
     const newData = new QR8bitByte(data)
     this.dataList.push(newData)
     this.dataCache = null
   }
 
-  isDark(row: number, col: number) {
+  isDark (row: number, col: number) {
     if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
       throw new Error(row + ',' + col)
     }
     return this.modules[row][col]
   }
 
-  getModuleCount() {
+  getModuleCount () {
     return this.moduleCount
   }
 
-  make() {
+  make () {
     // Calculate automatically typeNumber if provided is < 1
     if (this.typeNumber < 1) {
       let typeNumber
@@ -79,7 +79,7 @@ export default class QRCode {
     this.makeImpl(false, this.getBestMaskPattern())
   }
 
-  makeImpl(test: any, maskPattern: any) {
+  makeImpl (test: any, maskPattern: any) {
     this.moduleCount = this.typeNumber * 4 + 17
     this.modules = new Array(this.moduleCount)
     for (let row = 0; row < this.moduleCount; row++) {
@@ -106,7 +106,7 @@ export default class QRCode {
     this.mapData(this.dataCache, maskPattern)
   }
 
-  setupPositionProbePattern(row: any, col: any) {
+  setupPositionProbePattern (row: any, col: any) {
     for (let r = -1; r <= 7; r++) {
       if (row + r <= -1 || this.moduleCount <= row + r) continue
       for (let c = -1; c <= 7; c++) {
@@ -124,7 +124,7 @@ export default class QRCode {
     }
   }
 
-  getBestMaskPattern() {
+  getBestMaskPattern () {
     let minLostPoint = 0
     let pattern = 0
     for (let i = 0; i < 8; i++) {
@@ -138,7 +138,7 @@ export default class QRCode {
     return pattern
   }
 
-  createMovieClip(targetMc: any, instanceName: any, depth: any) {
+  createMovieClip (targetMc: any, instanceName: any, depth: any) {
     const qrMc = targetMc.createEmptyMovieClip(instanceName, depth)
     const cs = 1
     this.make()
@@ -160,7 +160,7 @@ export default class QRCode {
     return qrMc
   }
 
-  setupTimingPattern() {
+  setupTimingPattern () {
     for (let r = 8; r < this.moduleCount - 8; r++) {
       if (this.modules[r][6] != null) {
         continue
@@ -176,7 +176,7 @@ export default class QRCode {
     }
   }
 
-  setupPositionAdjustPattern() {
+  setupPositionAdjustPattern () {
     const pos = QRUtil.getPatternPosition(this.typeNumber)
     for (let i = 0; i < pos.length; i++) {
       for (let j = 0; j < pos.length; j++) {
@@ -198,7 +198,7 @@ export default class QRCode {
     }
   }
 
-  setupTypeNumber(test: any) {
+  setupTypeNumber (test: any) {
     const bits = QRUtil.getBCHTypeNumber(this.typeNumber)
     for (let i = 0; i < 18; i++) {
       const mod = !test && ((bits >> i) & 1) === 1
@@ -210,7 +210,7 @@ export default class QRCode {
     }
   }
 
-  setupTypeInfo(test: any, maskPattern: any) {
+  setupTypeInfo (test: any, maskPattern: any) {
     const data = (this.errorCorrectLevel << 3) | maskPattern
     const bits = QRUtil.getBCHTypeInfo(data)
     // vertical
@@ -240,7 +240,7 @@ export default class QRCode {
     this.modules[this.moduleCount - 8][8] = !test
   }
 
-  mapData(data: any, maskPattern: any) {
+  mapData (data: any, maskPattern: any) {
     let inc = -1
     let row = this.moduleCount - 1
     let bitIndex = 7
@@ -282,7 +282,7 @@ export default class QRCode {
   static PAD0 = 0xec
   static PAD1 = 0x11
 
-  static createData(typeNumber: any, errorCorrectLevel: any, dataList: any) {
+  static createData (typeNumber: any, errorCorrectLevel: any, dataList: any) {
     const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel)
     const buffer = new QRBitBuffer()
     for (let i = 0; i < dataList.length; i++) {
@@ -321,7 +321,7 @@ export default class QRCode {
     return QRCode.createBytes(buffer, rsBlocks)
   }
 
-  static createBytes(buffer: any, rsBlocks: any) {
+  static createBytes (buffer: any, rsBlocks: any) {
     let offset = 0
     let maxDcCount = 0
     let maxEcCount = 0

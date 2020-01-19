@@ -2,7 +2,7 @@ import { QRMath } from '~/plugins/qrcode/QRMath'
 
 export default class QRPolynomial {
   num: any
-  constructor(num: any, shift: any) {
+  constructor (num: any, shift: any) {
     if (num.length == null) {
       throw new Error(num.length + '/' + shift)
     }
@@ -16,15 +16,15 @@ export default class QRPolynomial {
     }
   }
 
-  get(index: any) {
+  get (index: any) {
     return this.num[index]
   }
 
-  getLength() {
+  getLength () {
     return this.num.length
   }
 
-  multiply(e: any) {
+  multiply (e: any) {
     const num = new Array(this.getLength() + e.getLength() - 1)
     for (let i = 0; i < this.getLength(); i++) {
       for (let j = 0; j < e.getLength(); j++) {
@@ -34,7 +34,7 @@ export default class QRPolynomial {
     return new QRPolynomial(num, 0)
   }
 
-  mod(e: any): any {
+  mod (e: any): any {
     if (this.getLength() - e.getLength() < 0) {
       return this
     }

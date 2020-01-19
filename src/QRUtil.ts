@@ -50,7 +50,7 @@ export const QRUtil = {
   G18: (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
   G15_MASK: (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1),
 
-  getBCHTypeInfo(data: any) {
+  getBCHTypeInfo (data: any) {
     let d = data << 10
     while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
       d ^= QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15))
@@ -58,7 +58,7 @@ export const QRUtil = {
     return ((data << 10) | d) ^ QRUtil.G15_MASK
   },
 
-  getBCHTypeNumber(data: any) {
+  getBCHTypeNumber (data: any) {
     let d = data << 12
     while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
       d ^= QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18))
@@ -66,7 +66,7 @@ export const QRUtil = {
     return (data << 12) | d
   },
 
-  getBCHDigit(data: any) {
+  getBCHDigit (data: any) {
     let digit = 0
     while (data !== 0) {
       digit++
@@ -75,11 +75,11 @@ export const QRUtil = {
     return digit
   },
 
-  getPatternPosition(typeNumber: any) {
+  getPatternPosition (typeNumber: any) {
     return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1]
   },
 
-  getMask(maskPattern: any, i: number, j: number) {
+  getMask (maskPattern: any, i: number, j: number) {
     switch (maskPattern) {
       case QRMaskPattern.PATTERN000:
         return (i + j) % 2 === 0
@@ -103,7 +103,7 @@ export const QRUtil = {
     }
   },
 
-  getErrorCorrectPolynomial(errorCorrectLength: number) {
+  getErrorCorrectPolynomial (errorCorrectLength: number) {
     let a = new QRPolynomial([1], 0)
     for (let i = 0; i < errorCorrectLength; i++) {
       a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0))
@@ -111,7 +111,7 @@ export const QRUtil = {
     return a
   },
 
-  getLengthInBits(mode: number, type: any) {
+  getLengthInBits (mode: number, type: any) {
     if (type >= 1 && type < 10) {
       // 1 - 9
       switch (mode) {
@@ -159,7 +159,7 @@ export const QRUtil = {
     }
   },
 
-  getLostPoint(qrCode: any) {
+  getLostPoint (qrCode: any) {
     const moduleCount = qrCode.getModuleCount()
     let lostPoint = 0
     // LEVEL1
