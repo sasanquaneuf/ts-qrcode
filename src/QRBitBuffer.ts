@@ -1,5 +1,5 @@
 export default class QRBitBuffer {
-  buffer: Array<any>
+  buffer: Array<number>
   length: number
   constructor () {
     this.buffer = []

@@ -256,13 +256,13 @@ export default class QRRSBlock {
     [20, 45, 15, 61, 46, 16]
   ]
 
-  static getRSBlocks (typeNumber: number, errorCorrectLevel: any) {
+  static getRSBlocks (typeNumber: number, errorCorrectLevel: number): QRRSBlock[] {
     const rsBlock = this.getRsBlockTable(typeNumber, errorCorrectLevel)
     if (rsBlock === undefined) {
       throw new Error('bad rs block @ typeNumber:' + typeNumber + '/errorCorrectLevel:' + errorCorrectLevel)
     }
     const length = rsBlock.length / 3
-    const list = []
+    const list: QRRSBlock[] = []
     for (let i = 0; i < length; i++) {
       const count = rsBlock[i * 3]
       const totalCount = rsBlock[i * 3 + 1]

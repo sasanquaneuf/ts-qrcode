@@ -4,7 +4,7 @@ export default class QR8bitByte {
   mode: any
   data: any
 
-  getLength (buffer: any) {
+  getLength () {
     return this.data.length
   }
 

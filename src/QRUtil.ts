@@ -103,7 +103,7 @@ export const QRUtil = {
     }
   },
 
-  getErrorCorrectPolynomial (errorCorrectLength: number) {
+  getErrorCorrectPolynomial (errorCorrectLength: number): QRPolynomial {
     let a = new QRPolynomial([1], 0)
     for (let i = 0; i < errorCorrectLength; i++) {
       a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0))
