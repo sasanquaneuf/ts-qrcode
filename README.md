@@ -2,6 +2,18 @@
 
 Pure TypeScript QRCode generator, for browser use.
 
+# usage
+
+Import QRCode or add script tag for qrcode.min.js.
+Then, you can generate qrcode as follows:
+
+```
+QRCode.setCanvas('target', { text: 'qrcode-text' });
+```
+
+Look at the sample/index.html for more information.
+
+
 # License
 
 MIT
