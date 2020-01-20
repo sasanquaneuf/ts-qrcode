@@ -3,16 +3,18 @@ import QR8bitByte from './QR8bitByte'
 import QRBitBuffer from './QRBitBuffer'
 import QRRSBlock from './QRRSBlock'
 import QRPolynomial from './QRPolynomial'
+import { QRErrorCorrectLevel } from './constants'
+export { QRErrorCorrectLevel } from './constants'
 
-export default class QRCode {
-  typeNumber: any
-  errorCorrectLevel: any
-  modules: any
+export class QRCode {
+  typeNumber: number
+  errorCorrectLevel: number
+  modules: boolean[][]
   moduleCount: number
   dataCache: any
-  dataList: any
+  dataList: QR8bitByte[]
 
-  constructor (typeNumber: any, errorCorrectLevel: any) {
+  constructor (typeNumber: number, errorCorrectLevel: number) {
     this.typeNumber = typeNumber
     this.errorCorrectLevel = errorCorrectLevel
     this.modules = null
@@ -64,7 +66,7 @@ export default class QRCode {
     this.makeImpl(false, this.getBestMaskPattern())
   }
 
-  makeImpl (test: any, maskPattern: any) {
+  makeImpl (test: boolean, maskPattern: number) {
     this.moduleCount = this.typeNumber * 4 + 17
     this.modules = new Array(this.moduleCount)
     for (let row = 0; row < this.moduleCount; row++) {
@@ -267,11 +269,11 @@ export default class QRCode {
   static PAD0 = 0xec
   static PAD1 = 0x11
 
-  static createData (typeNumber: any, errorCorrectLevel: any, dataList: any) {
-    const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel)
+  static createData (typeNumber: number, errorCorrectLevel: number, dataList: QR8bitByte[]) {
+    const rsBlocks: QRRSBlock[] = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel)
     const buffer = new QRBitBuffer()
     for (let i = 0; i < dataList.length; i++) {
-      const data = dataList[i]
+      const data: QR8bitByte = dataList[i]
       buffer.put(data.mode, 4)
       buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber))
       data.write(buffer)
@@ -306,15 +308,15 @@ export default class QRCode {
     return QRCode.createBytes(buffer, rsBlocks)
   }
 
-  static createBytes (buffer: any, rsBlocks: any) {
-    let offset = 0
-    let maxDcCount = 0
-    let maxEcCount = 0
-    const dcdata = new Array(rsBlocks.length)
-    const ecdata = new Array(rsBlocks.length)
+  static createBytes (buffer: QRBitBuffer, rsBlocks: QRRSBlock[]) {
+    let offset: number = 0
+    let maxDcCount: number = 0
+    let maxEcCount: number = 0
+    const dcdata: number[][] = new Array(rsBlocks.length)
+    const ecdata: number[][] = new Array(rsBlocks.length)
     for (let r = 0; r < rsBlocks.length; r++) {
-      const dcCount = rsBlocks[r].dataCount
-      const ecCount = rsBlocks[r].totalCount - dcCount
+      const dcCount: number = rsBlocks[r].dataCount
+      const ecCount: number = rsBlocks[r].totalCount - dcCount
       maxDcCount = Math.max(maxDcCount, dcCount)
       maxEcCount = Math.max(maxEcCount, ecCount)
       dcdata[r] = new Array(dcCount)
@@ -322,23 +324,22 @@ export default class QRCode {
         dcdata[r][i] = 0xff & buffer.buffer[i + offset]
       }
       offset += dcCount
-      const rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount)
-      const rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1)
-
-      const modPoly = rawPoly.mod(rsPoly)
+      const rsPoly: QRPolynomial = QRUtil.getErrorCorrectPolynomial(ecCount)
+      const rawPoly: QRPolynomial = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1)
+      const modPoly: QRPolynomial = rawPoly.mod(rsPoly)
       ecdata[r] = new Array(rsPoly.getLength() - 1)
       for (let i = 0; i < ecdata[r].length; i++) {
-        const modIndex = i + modPoly.getLength() - ecdata[r].length
+        const modIndex: number = i + modPoly.getLength() - ecdata[r].length
         ecdata[r][i] = modIndex >= 0 ? modPoly.get(modIndex) : 0
       }
     }
 
-    let totalCodeCount = 0
+    let totalCodeCount: number = 0
     for (let i = 0; i < rsBlocks.length; i++) {
       totalCodeCount += rsBlocks[i].totalCount
     }
 
-    const data = new Array(totalCodeCount)
+    const data: number[] = new Array(totalCodeCount)
     let index = 0
 
     for (let i = 0; i < maxDcCount; i++) {
@@ -357,5 +358,41 @@ export default class QRCode {
       }
     }
     return data
+  }
+
+  static createCanvas (options: any) {
+    const opt = Object.assign({
+      width: 256,
+      height: 256,
+      correctLevel: QRErrorCorrectLevel.H,
+      background: '#ffffff',
+      foreground: '#000000'
+    }, options)
+    const qrcode = new QRCode(-1, opt.correctLevel)
+    qrcode.addData(opt.text)
+    qrcode.make()
+
+    const canvas = document.createElement('canvas')
+    canvas.width = opt.width
+    canvas.height = opt.height
+    const ctx = canvas.getContext('2d')
+
+    const tileW = opt.width / qrcode.getModuleCount()
+    const tileH = opt.height / qrcode.getModuleCount()
+    for (let row = 0; row < qrcode.getModuleCount(); row++) {
+      for (let col = 0; col < qrcode.getModuleCount(); col++) {
+        ctx.fillStyle = qrcode.isDark(row, col) ? opt.foreground : opt.background
+        const w = (Math.ceil((col + 1) * tileW) - Math.floor(col * tileW))
+        const h = (Math.ceil((row + 1) * tileH) - Math.floor(row * tileH))
+        ctx.fillRect(Math.round(col * tileW), Math.round(row * tileH), w, h)
+      }
+    }
+    return canvas
+  }
+
+  static setCanvas (id: string, options: any) {
+    const parent = document.getElementById(id)
+    parent.innerHTML = ''
+    parent.appendChild(QRCode.createCanvas(options))
   }
 }
