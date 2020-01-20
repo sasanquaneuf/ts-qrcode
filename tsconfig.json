@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "declaration": true,
     "inlineSourceMap": true,
     "sourceMap": false,
     "types": [],
@@ -12,7 +13,8 @@
     "moduleResolution": "node",
     "lib": ["es6", "dom"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "outDir": "dist"
   },
   "exclude": [
     "./node_modules/*",

@@ -1,6 +1,7 @@
 {
   "name": "ts-qrcode",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "main": "dist/qrcode.min.js",
   "description": "",
   "author": "sasanquaneuf",
   "scripts": {
