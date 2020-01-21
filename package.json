@@ -1,9 +1,11 @@
 {
   "name": "ts-qrcode",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/qrcode.min.js",
   "description": "",
   "author": "sasanquaneuf",
+  "repository": "https://github.com/sasanquaneuf/ts-qrcode",
+  "license": "MIT",
   "scripts": {
     "build": "webpack --config webpack.conf.js -p",
     "lint": "eslint --ext .ts ./src",
