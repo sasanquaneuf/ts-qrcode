@@ -1,6 +1,6 @@
 {
   "name": "ts-qrcode",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/qrcode.min.js",
   "description": "",
   "author": "sasanquaneuf",
@@ -12,9 +12,7 @@
     "lint:fix": "eslint --fix --ext .ts ./src",
     "lint:ci": "eslint --ext .ts --format=html -o ./results/eslint/eslint.html ./src"
   },
-  "dependencies": {
-    "typescript": "^3.7.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
@@ -25,6 +23,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
   }
